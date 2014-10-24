@@ -1,0 +1,19 @@
+h1
+	Images
+
+- if @gallerycount < 1
+	p 
+	|	No images found to display
+- else
+	div.currentselection
+		p
+			| Orientation: #{@gallerylist.image_orientation(@selectionindex)}
+		p #{@gallerylist.filename(@selectionindex)} 
+			[#{@gallerylist.image_width(@selectionindex)} , #{@gallerylist.image_height(@selectionindex)} ]
+		
+		a> href="/gallery/#{@gallerylist.previous(@selectionindex)}"
+			img src='/arrowleft.png'
+		a> href="/gallery/#{@gallerylist.next(@selectionindex)}" 
+			img src='/arrowright.png'
+		p	
+			img.gallery src='/gallery/#{@gallerylist.filename(@selectionindex)}'

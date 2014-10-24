@@ -1,0 +1,35 @@
+h1
+	Images
+
+- if @gallerycount < 1
+	p 
+	|	No images found to display
+- else
+	div.currentselection
+		div.buttonsave
+			- if @gallerylist.changed?
+				a.buttonsave href="/save" Save Changes
+			- else
+				a class=:buttonsave,:notsave href="#" No Changes
+		img.arrow src="/arrowleft.png" 
+			a> href="/moveleft/#{@selectionindex}"
+				| Move Left
+		img.currentselection src='/gallery/#{@gallerylist.filename(@selectionindex)}'
+		a> href="/moveright/#{@selectionindex}"
+			| Move Right
+			img.arrow src="/arrowright.png"
+		p #{@gallerylist.filename(@selectionindex)}
+	
+		
+	div.otherimages
+		
+		| #{@gallerycount} images
+		ul
+  		li 
+  			- @gallerylist.image_index_list_asc.each do |idx|					
+					- if idx == @selectionindex
+						a> href="/organise/#{idx}"
+							img.pos_above src='/gallery/#{@gallerylist.filename(idx)}'
+					- else
+						a> href="/organise/#{idx}"
+							img.otherimages  src='/gallery/#{@gallerylist.filename(idx)}'

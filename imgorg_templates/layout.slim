@@ -1,0 +1,21 @@
+doctype html
+html lang="en"
+	head
+		title Image Organiser
+		meta charset="utf-8"
+		link rel="stylesheet" href="/styles.css"
+		
+		
+	body 
+		div.title
+			h2 
+				Image Organiser
+			h3
+				a> href="/" Home
+				a> href="/organise/" Organise Images
+				a> href="/gallery/" Show Gallery 
+				a> href="/admin" Admin
+			- if @imagefilesupdated
+				p
+					| Warning: Image files have been updated.	
+			== yield

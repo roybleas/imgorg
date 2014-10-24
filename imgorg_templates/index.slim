@@ -1,0 +1,25 @@
+p
+	| No. of images: #{@imagecount}
+	
+p
+	| File name: #{@fileprefix}
+
+p
+	| Initial Sequence number: #{@initial_sequence_number}
+p
+	a href="/refresh" Refresh Images
+	
+p
+	form.formset action="/set" method="POST" 
+		label.formset
+			| File name: 
+		input type="text" name="filename"  value="#{@fileprefix}"
+		label.formset
+			| Initial Sequence number: 
+		input type="text" name="seq" value="#{@initial_sequence_number}"
+		input.button style="float: right;" type="submit" value="Set"
+p
+	
+	
+
+			
