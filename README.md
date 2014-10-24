@@ -1,7 +1,7 @@
 imgorg
 ======
 
-Image Orgaiser
+Image Organiser
 
 I wanted to set the filenames of some holiday photographs so they would display on the TV in the correct sequence. I did this manually for the first few and then decided to write this sinatra program.
 
