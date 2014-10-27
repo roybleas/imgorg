@@ -1,5 +1,5 @@
 #ultra edit project file
-.pui
+*.pui
 =======
 *.gem
 *.rbc
