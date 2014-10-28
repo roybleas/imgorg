@@ -87,6 +87,30 @@ class Testimglistmove < MiniTest::Unit::TestCase
 
   end
   
+  def test_move_end_cases_start
+  	
+  	this_imagelist = Imagelist.new(@testfilelist)
+  	assert_equal [0,1,2,3,4],this_imagelist.image_index_list_asc
+    	
+  	this_imagelist.move_previous(0)
+  	  	  	
+  	assert_equal [1,2,3,4,0],this_imagelist.image_index_list_asc
+  	assert_equal [1,2,3,4,0].reverse,this_imagelist.image_index_list_desc
+  	
+  end
+  
+  def test_move_end_cases_end
+  	this_imagelist = Imagelist.new(@testfilelist)
+  	assert_equal [0,1,2,3,4],this_imagelist.image_index_list_asc
+  	
+  	this_imagelist.move_next(4)
+  	  	  	
+  	assert_equal [4,0,1,2,3],this_imagelist.image_index_list_asc
+  	assert_equal [4,0,1,2,3].reverse,this_imagelist.image_index_list_desc
+  	
+  	
+  end
+  
   def test_move_next
   	this_imagelist = Imagelist.new(@testfilelist)
   	
@@ -138,6 +162,7 @@ class Testimglistmove < MiniTest::Unit::TestCase
   end
   
   def test_move_next_shuffle_first_to_last 
+  	
   	this_imagelist = Imagelist.new(@testfilelist)
   	
   	#shuffle first to last 
@@ -156,7 +181,9 @@ class Testimglistmove < MiniTest::Unit::TestCase
   	assert_equal [1,2,3,4,0],this_imagelist.image_index_list_asc
   	
   	this_imagelist.move_next(0)
-  	assert_equal [1,2,3,4,0],this_imagelist.image_index_list_asc
+  	assert_equal [0,1,2,3,4],this_imagelist.image_index_list_asc
+  	
+  	
   end
   
   def test_move_previous_swap_then_swap_back
@@ -171,6 +198,7 @@ class Testimglistmove < MiniTest::Unit::TestCase
   end
   
   def test_move_previous_shuffle_last_to_first 
+  	
   	this_imagelist = Imagelist.new(@testfilelist)
   	
   	#shuffle first to last 
@@ -189,7 +217,9 @@ class Testimglistmove < MiniTest::Unit::TestCase
   	assert_equal [4,0,1,2,3],this_imagelist.image_index_list_asc
   	
   	this_imagelist.move_previous(4)
-  	assert_equal [4,0,1,2,3],this_imagelist.image_index_list_asc
+  	assert_equal [0,1,2,3,4],this_imagelist.image_index_list_asc
+  	
+  	
   end
 end
 
@@ -458,6 +488,7 @@ class TestSave < MiniTest::Unit::TestCase
 	end
 	
 	def test_save_new_start_sequence
+		
 		assert File.directory?(@test_fldr_4)
 		
 		filelist = load_pictures(@test_fldr_4).sort
@@ -466,10 +497,15 @@ class TestSave < MiniTest::Unit::TestCase
 		this_imagelist = Imagelist.new(filelist,@test_fldr_4)
 		assert_equal "exampleimage_002", this_imagelist.filename_prefix
 		
+		assert_equal [0,1,2,3,4,5,6],this_imagelist.image_index_list_asc
 		this_imagelist.move_previous(2)
+		assert_equal [0,2,1,3,4,5,6],this_imagelist.image_index_list_asc
 		this_imagelist.move_previous(2)
-		this_imagelist.move_next(5)
-		assert_equal [2,0,1,3,4,6,5],this_imagelist.image_index_list_asc
+		assert_equal [2,0,1,3,4,5,6],this_imagelist.image_index_list_asc
+		this_imagelist.move_next(4)
+		assert_equal [2,0,1,3,5,4,6],this_imagelist.image_index_list_asc
+		this_imagelist.move_previous(2)
+		assert_equal [0,1,3,5,4,6,2],this_imagelist.image_index_list_asc
 		
 		test_seq_no = 30
 		this_imagelist.initial_sequence_number = test_seq_no

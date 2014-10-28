@@ -144,6 +144,28 @@ class Imagelist
 				next_imageId = @list[this_imageId.next_index]
 				
 				swap_image_indexes(this_imageId,next_imageId)
+			else
+				#make last item the first in the sequence
+				
+				#save current last and first indexes
+				curr_first_index = self.first_index
+				curr_last_index = idx
+				
+				
+				curr_first_image = @list[curr_first_index]
+				curr_last_image = @list[curr_last_index]
+				
+				#point current first image to follow current last image
+				curr_first_image.previous_index = curr_last_index
+				
+				#make the image before the current last image the last in the sequence
+				@list[curr_last_image.previous_index].next_index = -1
+				
+				#point the current last image to be before the current first image 
+				curr_last_image.next_index = curr_first_index
+				
+				#finally change current last to be first in the sequence
+				curr_last_image.previous_index = -1
 			end
 		end
 	end		
@@ -157,6 +179,27 @@ class Imagelist
 				previous_imageId = @list[this_imageId.previous_index]
 				
 				swap_image_indexes(previous_imageId ,this_imageId)
+			else
+				#make first item the last in the sequence
+				
+				#save current last and first indexes
+				curr_last_index = self.last_index
+				curr_first_index = idx
+				
+				curr_first_image = @list[curr_first_index]
+				curr_last_image = @list[curr_last_index]
+				
+				#point current last to be before current first_index
+				curr_last_image.next_index = curr_first_index
+				
+				#make the image following the first image the first in the sequence
+				@list[curr_first_image.next_index].previous_index = -1
+				
+				#point the current first to follow the current last image 
+				curr_first_image.previous_index = curr_last_index
+				
+				#finally change current first to be last in the sequence
+				curr_first_image.next_index = -1
 			end
 		end
 	end		
