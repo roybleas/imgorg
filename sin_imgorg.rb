@@ -46,6 +46,7 @@ configure :production do
 end
 
 before do
+	@selectionindex = 0 # set default index
 	@imagefilesupdated = false
 	logger.info("== >>> session[:fred]= #{session[:fred]	}")
 	logger.info(" == >> sesion id #{session[:session_id]}")
