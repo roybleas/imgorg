@@ -34,7 +34,7 @@ class Imagelist
 			@filename_prefix = self.filename_common_prefix
 		end
 		@initial_sequence_number = first_sequence_number
-		# load_image_dimensions
+		load_image_dimensions
 	end
 	
 	# extract the image file from the array
@@ -401,11 +401,23 @@ class Imagelist
 		if @folder != ""
 			@list.each_index { |idx|
 				filename = self.fullpath(idx)
-				#Note: only loads jpg files for now
-				@list[idx].width = EXIFR::JPEG.new(filename).width 
-				@list[idx].height = EXIFR::JPEG.new(filename).height
-				if @list[idx].width > @list[idx].height
-					@list[idx].orientation = :landscape
+				begin
+					#Note: only loads jpg files for now
+					
+					
+					@list[idx].width = EXIFR::JPEG.new(filename).width 
+					@list[idx].height = EXIFR::JPEG.new(filename).height
+					if @list[idx].width > @list[idx].height
+						@list[idx].orientation = :landscape
+					end
+				rescue Errno::ENOENT 
+					#use default values
+					@list[idx].width = "?"
+					@list[idx].height = "?"
+				rescue EXIFR::MalformedJPEG
+					#use default values
+					@list[idx].width = "?"
+					@list[idx].height = "?"
 				end
 			}
 		end
