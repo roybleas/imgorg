@@ -42,11 +42,7 @@ class Imagelist
 		idx = valid_index(idx)
 		@list[idx].imagefile
 	end
-	
-	def fred(idx)
-		"Landscape"
-	end
-	
+		
 	#create an array of the indexes of the imagedIds in ascending order
 	def image_index_list_asc()
 			
@@ -424,7 +420,7 @@ class Imagelist
 	end				
 end
 
-class Last_creation_date
+class Last_gallery_load_date
 	include Singleton
 	attr_accessor :creationtime
 	

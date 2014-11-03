@@ -36,40 +36,34 @@ end
 configure :development do
 	LOCATION = File.join(File.dirname(__FILE__), 'imgorg_myfiles','gallery')
 	SAVED = "save"
-	Last_creation_date.instance.creationtime = Time.now
+	Last_gallery_load_date.instance.creationtime = Time.now
 end
 
 configure :production do
 	LOCATION = File.join(File.dirname(__FILE__), 'imgorg_myfiles','gallery')
 	SAVED = "save"
-	Last_creation_date.instance.creationtime = Time.now
+	Last_gallery_load_date.instance.creationtime = Time.now
 end
 
 before do
 	@selectionindex = 0 # set default index
 	@imagefilesupdated = false
-	logger.info("== >>> session[:fred]= #{session[:fred]	}")
-	logger.info(" == >> sesion id #{session[:session_id]}")
-	if session[:fred].nil?
-		logger.info("== >>> Set FRED ")
-		session[:fred] = " ###### FRED #{Time.now}" 
 	
-	end
-	
-	
+	# set up a local image list if this is first time through
 	if session[:gallerylist].nil?
 		session[:gallerylist] = Imagelist.new(load_pictures,LOCATION)
-		logger.info("== >>> session[:gallerylist].nil?")
 	else
-		logger.info("=== >>> session[:gallerylist] is not nil!!")
-		logger.info(session[:gallerylist].created.inspect)
-		last_saved = Last_creation_date.instance
-		logger.info(last_saved.creationtime.inspect)
+		#find the last time the images were loaded
+		last_saved = Last_gallery_load_date.instance
+		#confirm that the local image list is still valid
 		if last_saved.updated?(session[:gallerylist].created)
+			#out of date so replace
 			session[:gallerylist] = Imagelist.new(load_pictures,LOCATION)
+			#let the user know
 			@imagefilesupdated = true
 		end
 	end
+	#make local imagelist for views
   @gallerylist = session[:gallerylist]
 end
 
@@ -126,7 +120,7 @@ end
 
 get '/save' do
 	@gallerylist.save
-	Last_creation_date.instance.creationtime = Time.now
+	Last_gallery_load_date.instance.creationtime = Time.now
 	
 	session[:gallerylist] = Imagelist.new(load_pictures,LOCATION)
 	@gallerylist = session[:gallerylist]
@@ -169,6 +163,8 @@ post '/load' do
 		Dir.glob(File.join(LOCATION,"*.jpg")) {|f| File.delete(f) }
 	 	
 	 	FileUtils.cp file_list, LOCATION
+	 	#track the last gallery load
+	 	Last_gallery_load_date.instance.creationtime = Time.now
 	 	redirect "/refresh"
 	else
 	 	redirect "/"

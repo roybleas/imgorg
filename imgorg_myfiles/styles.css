@@ -74,6 +74,13 @@ label.formset {
 	padding-left:10px;
 }
 form.formset { 
-	width: 400px;
+	width: 420px;
 	background-color: #b0c4de;
 } 
+
+span.warnmess {
+	border-style: solid;
+  border-color: red;
+  margin: 1em;
+  padding: 5px 10px 5px 10px;
+ }
