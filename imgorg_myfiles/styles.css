@@ -1,6 +1,11 @@
+/* Layout */
+
 a.nav {
 	padding: 0em 0.8em 0.5em 0.2em
 }
+
+
+/* Organise */
 
 img.currentselection {
 	height: 400px;
@@ -16,11 +21,6 @@ img.otherimages {
 	width: 120px;
 }
 
-img.gallery {
-	border: 3px;
-	height: 30%;
-	width: 30%
-}
 img.pos_above {
 	
 	width: 120px;
@@ -68,12 +68,7 @@ li {
     display: inline;
 }
 
-span.filename {
-	display:inline-block;
-	padding:2px;
-	padding: 0px 10px 0px 10px;
-	border:1px solid black;
-}
+/* Index */
 
 label.formset {
 	display: inline-block;
@@ -86,7 +81,15 @@ label.formset {
 form.formset { 
 	width: 420px;
 	background-color: #b0c4de;
+	padding: 0.5em;
 } 
+
+input.buttonformset {
+	padding-right:10px;
+	padding-left:10px;
+	float: right;
+	margin-right:5px;"
+}
 
 span.warnmess {
 	border-style: solid;
@@ -94,3 +97,11 @@ span.warnmess {
   margin: 1em;
   padding: 5px 10px 5px 10px;
  }
+
+/* Gallery */
+
+img.gallery {
+	border: 3px;
+	height: 30%;
+	width: 30%
+}
