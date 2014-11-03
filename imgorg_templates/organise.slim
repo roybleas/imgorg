@@ -11,13 +11,13 @@ h1
 				a.buttonsave href="/save" Save Changes
 			- else
 				a class=:buttonsave,:notsave href="#" No Changes
-		img.arrow src="/arrowleft.png" 
-			a> href="/moveleft/#{@selectionindex}"
+		img.arrowleft src="/arrowleft.png" 
+			a.currentselection> href="/moveleft/#{@selectionindex}"
 				| Move Left
 		img.currentselection src='/gallery/#{@gallerylist.filename(@selectionindex)}'
-		a> href="/moveright/#{@selectionindex}"
+		a.currentselection> href="/moveright/#{@selectionindex}"
 			| Move Right
-			img.arrow src="/arrowright.png"
+			img.arrowright src="/arrowright.png"
 		p #{@gallerylist.filename(@selectionindex)}
 	
 		
