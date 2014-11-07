@@ -27,3 +27,7 @@ Source Paths=
 2=.\imgorg_templates\
 3=test_imgorg.rb
 4=imgorg.rb
+5=procfile
+6=Gemfile
+7=imgorg_templates\layout.slim
+8=config.ru
