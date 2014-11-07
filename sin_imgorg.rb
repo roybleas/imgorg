@@ -24,9 +24,11 @@ use Rack::Session::Pool, :expire_after => 60*60*2 #seconds for a couple of hours
 
 
 def load_pictures
-  imgsuffix = '*.{jpg}' 
-  #it is case sensitive in unix not windows
+  imgsuffix = '*.{jpg,JPG}' 
+  
   file_list = Dir.glob(File.join(LOCATION,imgsuffix))
+  #list it is case sensitive in unix so remove duplicates for Windows
+  file_list.uniq!
   
   file_list.each do |img|
   	img.sub!(/#{LOCATION}\//, '')
@@ -149,19 +151,24 @@ post '/load' do
 	
 	case params[:samples]
 	when "example"
-		filename = "exampleimage_001_*.jpg"
+		filename = "exampleimage_001_*.{jpg,JPG}"
 	when "cats"
-		filename = "cats_*.jpg"
+		filename = "cats_*.{jpg,JPG}"
 	when "india"
-		filename = "IMG_*.jpg"
+		filename = "IMG_*.{jpg,JPG}"
 	else
 		filename = "unknown"
 	end
 	
-	file_list = Dir[File.join(LOCATION,SAVED ,filename)]
+	file_list = Dir.glob(File.join(LOCATION,SAVED ,filename))
 	if file_list.size > 0
+		#.uniq! clear duplicates when on Windows
+		file_list.uniq!
+		
 		# empty gallery folder
-		Dir.glob(File.join(LOCATION,"*.jpg")) {|f| File.delete(f) }
+		gallery_list = Dir.glob(File.join(LOCATION,"*.{jpg,JPG}"))
+		gallery_list.uniq! 
+		gallery_list.each {|f| File.delete(f) }
 	 	
 	 	FileUtils.cp file_list, LOCATION
 	 	#track the last gallery load
