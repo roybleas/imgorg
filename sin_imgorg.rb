@@ -24,8 +24,9 @@ use Rack::Session::Pool, :expire_after => 60*60*2 #seconds for a couple of hours
 
 
 def load_pictures
-  imgsuffix = '*.{JPG}' 
-  file_list = Dir.glob(File.join(LOCATION,imgsuffix))
+  imgsuffix = '*.{jpg}' 
+  #File::FNM_CASEFOLD means it is case insensitive ie folding the cases
+  file_list = Dir.glob(File.join(LOCATION,imgsuffix), File::FNM_CASEFOLD)
   
   file_list.each do |img|
   	img.sub!(/#{LOCATION}\//, '')
