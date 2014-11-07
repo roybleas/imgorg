@@ -25,8 +25,8 @@ use Rack::Session::Pool, :expire_after => 60*60*2 #seconds for a couple of hours
 
 def load_pictures
   imgsuffix = '*.{jpg}' 
-  #File::FNM_CASEFOLD means it is case insensitive ie folding the cases
-  file_list = Dir.glob(File.join(LOCATION,imgsuffix), File::FNM_CASEFOLD)
+  #it is case sensitive in unix not windows
+  file_list = Dir.glob(File.join(LOCATION,imgsuffix))
   
   file_list.each do |img|
   	img.sub!(/#{LOCATION}\//, '')
@@ -153,7 +153,7 @@ post '/load' do
 	when "cats"
 		filename = "cats_*.jpg"
 	when "india"
-		filename = "img_*.jpg"
+		filename = "IMG_*.jpg"
 	else
 		filename = "unknown"
 	end
