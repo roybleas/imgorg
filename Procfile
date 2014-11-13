@@ -1,1 +1,1 @@
-web: bundle exec ruby sin_imgorg.rb -p $PORT
+web:    bundle exec thin start -p $PORT

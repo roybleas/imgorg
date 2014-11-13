@@ -36,6 +36,16 @@ def load_pictures
 	file_list.sort
 end
 
+helpers do
+	
+	# empty gallery folder
+	def clear_gallery
+		gallery_list = Dir.glob(File.join(LOCATION,"*.{jpg,JPG}"))
+		gallery_list.uniq! 
+		gallery_list.each {|f| File.delete(f) }
+	end
+end
+
 configure :development do
 	LOCATION = File.join(File.dirname(__FILE__), 'imgorg_myfiles','gallery')
 	SAVED = "save"
@@ -156,29 +166,36 @@ post '/load' do
 		filename = "cats_*.{jpg,JPG}"
 	when "india"
 		filename = "IMG_*.{jpg,JPG}"
+	when "clear"
+		filename = :nothing
 	else
 		filename = "unknown"
 	end
 	
-	file_list = Dir.glob(File.join(LOCATION,SAVED ,filename))
-	if file_list.size > 0
-		#.uniq! clear duplicates when on Windows
-		file_list.uniq!
-		
-		# empty gallery folder
-		gallery_list = Dir.glob(File.join(LOCATION,"*.{jpg,JPG}"))
-		gallery_list.uniq! 
-		gallery_list.each {|f| File.delete(f) }
-	 	
-	 	FileUtils.cp file_list, LOCATION
-	 	#track the last gallery load
-	 	Last_gallery_load_date.instance.creationtime = Time.now
-	 	redirect "/refresh"
+	if filename == :nothing
+		clear_gallery
+		#track the last gallery load
+		Last_gallery_load_date.instance.creationtime = Time.now
+		redirect "/refresh"
 	else
-	 	redirect "/"
+		#collect a list of selected images
+		file_list = Dir.glob(File.join(LOCATION,SAVED ,filename))
+		if file_list.size > 0
+			#.uniq! clear duplicates when on Windows
+			file_list.uniq!
+			
+			clear_gallery
+			
+		 	FileUtils.cp file_list, LOCATION
+		 	#track the last gallery load
+		 	Last_gallery_load_date.instance.creationtime = Time.now
+		 	redirect "/refresh"
+		else
+		 	redirect "/"
+		end
 	end
-end
-	
+end	
+
 get '/refresh' do
 	session[:gallerylist] = Imagelist.new(load_pictures,LOCATION)
 	redirect '/'
